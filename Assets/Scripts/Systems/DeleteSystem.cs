@@ -2,9 +2,7 @@ using Unity.Collections;
 using Unity.Entities;
 using Unity.Jobs;
 
-/// <summary>
 /// Disposes of entities marked for deletion
-/// </summary>
 [AlwaysSynchronizeSystem]
 public class DeleteSystem : SystemBase
 {
@@ -15,9 +13,10 @@ public class DeleteSystem : SystemBase
 
         Entities.ForEach((Entity entity, ref DeleteTag delete) =>
         {
+            delete.lifetime += deltaTime;
+
             if (delete.lifetime >= delete.lifetimeMax)
                 buffer.DestroyEntity(entity);
-            delete.lifetime += deltaTime;
         }).Schedule();
 
         buffer.Playback(EntityManager);

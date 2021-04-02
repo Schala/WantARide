@@ -6,10 +6,7 @@ using Unity.Transforms;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-/// <summary>
 /// Movement and physics logic for player-controlled limos
-/// </summary>
-[UpdateInGroup(typeof(FixedStepSimulationSystemGroup))]
 public class LimoControlSystem : SystemBase, InputActions.IPlayerActions
 {
 	InputActions inputActions = null;
@@ -25,9 +22,7 @@ public class LimoControlSystem : SystemBase, InputActions.IPlayerActions
 		throw new System.NotImplementedException();
 	}
 
-	/// <summary>
 	/// Apply our forward and turn values.
-	/// </summary>
 	public void OnMove(InputAction.CallbackContext context)
 	{
 		var movement = context.ReadValue<Vector2>();
@@ -35,9 +30,7 @@ public class LimoControlSystem : SystemBase, InputActions.IPlayerActions
 		input.turnAmount = movement.x;
 	}
 
-	/// <summary>
 	/// Get the player's limo control data.
-	/// </summary>
 	protected override void OnCreate()
 	{
 		inputActions = new InputActions();
@@ -45,9 +38,7 @@ public class LimoControlSystem : SystemBase, InputActions.IPlayerActions
 		input = playerQuery.GetSingleton<LimoControlInput>();
 	}
 
-	/// <summary>
 	/// Apply force and rotation for the limo.
-	/// </summary>
 	protected override void OnUpdate()
 	{
 		var deltaTime = Time.DeltaTime;

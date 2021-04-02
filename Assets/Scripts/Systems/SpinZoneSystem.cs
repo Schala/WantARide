@@ -14,15 +14,14 @@ public class SpinZoneSystem : SystemBase
 	Entity level = Entity.Null;
 	Entity rotatable = Entity.Null;
 
-	/// <summary>
 	/// Execute the spinning on a worker thread.
-	/// </summary>
 	struct SpinJob : ITriggerEventsJob
 	{
 		public ComponentDataFromEntity<SpinZone> spinZoneGroup;
 		public EntityCommandBuffer buffer;
 		public Entity player;
 
+		/// Identify our spin zone and our player.
 		public void Execute(TriggerEvent triggerEvent)
 		{
 			var a = triggerEvent.EntityA;
@@ -35,9 +34,7 @@ public class SpinZoneSystem : SystemBase
 			if (isSpinZoneB && a == player) Spin(b);
 		}
 
-		/// <summary>
 		/// If one of the collision entities is the player, initiate spinning.
-		/// </summary>
 		void Spin(Entity spinZone)
 		{
 			var data = spinZoneGroup[spinZone];
@@ -47,9 +44,7 @@ public class SpinZoneSystem : SystemBase
 		}
 	}
 
-	/// <summary>
 	/// Gather the needed references in order to schedule the worker thread.
-	/// </summary>
 	protected override void OnCreate()
 	{
 		buildPhysicsWorld = World.GetOrCreateSystem<BuildPhysicsWorld>();
@@ -59,9 +54,7 @@ public class SpinZoneSystem : SystemBase
 		rotatable = GetSingletonEntity<RotatableTag>();
 	}
 
-	/// <summary>
 	/// Run our worker threads, and have the player spin if they're on any of the spin zones.
-	/// </summary>
 	protected override void OnUpdate()
     {
 		var job = new SpinJob

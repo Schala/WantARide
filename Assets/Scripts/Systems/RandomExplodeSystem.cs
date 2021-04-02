@@ -4,19 +4,14 @@ using Unity.Physics;
 using Unity.Physics.Systems;
 using Unity.Transforms;
 
-/// <summary>
 /// Spawns a random explosion variant at the player's position upon collision
-/// </summary>
-[UpdateInGroup(typeof(FixedStepSimulationSystemGroup))]
 public class RandomExplodeSystem : SystemBase
 {
 	BuildPhysicsWorld buildPhysicsWorld;
 	StepPhysicsWorld stepPhysicsWorld;
 	BeginFixedStepSimulationEntityCommandBufferSystem bufferSystem;
 
-	/// <summary>
 	/// Execute the explosion on a worker thread.
-	/// </summary>
 	struct ExplodeJob : ITriggerEventsJob
 	{
 		[ReadOnly] public ComponentDataFromEntity<Explosion> explosionGroup;
@@ -34,9 +29,7 @@ public class RandomExplodeSystem : SystemBase
 			if (player == a || player == b) Explode();
 		}
 
-		/// <summary>
 		/// If one of the collision entities is the player, execute the explosion.
-		/// </summary>
 		void Explode()
 		{
 			var explosion = buffer.Instantiate(explosionPrefab);
@@ -60,9 +53,7 @@ public class RandomExplodeSystem : SystemBase
 		}
 	}
 
-	/// <summary>
 	/// Gather the needed references in order to schedule the worker thread.
-	/// </summary>
 	protected override void OnCreate()
 	{
 		buildPhysicsWorld = World.GetOrCreateSystem<BuildPhysicsWorld>();
@@ -72,7 +63,7 @@ public class RandomExplodeSystem : SystemBase
 
 	protected override void OnUpdate()
     {
-		var playerQuery = GetEntityQuery(typeof(PlayerTag));
+		var playerQuery = GetEntityQuery(typeof(PlayerTag)); // get the query, not the entity, because we need components as well
 
 		var job = new ExplodeJob
 		{

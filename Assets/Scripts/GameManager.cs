@@ -13,13 +13,7 @@ public class GameManager : MonoBehaviour
 
 	Entity explosionEntityPrefab = Entity.Null;
 
-	public static Entity ExplosionPrefab
-	{
-		get
-		{
-			return instance.explosionEntityPrefab;
-		}
-	}
+	public static Entity ExplosionPrefab => instance.explosionEntityPrefab;
 
 	private void Awake()
 	{
